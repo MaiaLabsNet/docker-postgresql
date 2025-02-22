@@ -1,0 +1,21 @@
+# PostgreSQL ist hier nicht direkt notwendig, da wir das offizielle PostgreSQL-Image verwenden.
+FROM postgres:latest
+
+# Entwicklertools oder Skripte, die für die Entwicklung gebraucht werden
+RUN apt-get update && apt-get install -y \
+  vim \
+  curl \
+  && rm -rf /var/lib/apt/lists/*
+
+# Optionale Umgebungsvariablen, falls erforderlich
+ENV POSTGRES_USER=myuser
+ENV POSTGRES_PASSWORD=mypassword
+ENV POSTGRES_DB=mydatabase
+
+# Arbeitsverzeichnis setzen
+WORKDIR /docker-entrypoint-initdb.d  # Du kannst hier Skripte einfügen, die beim Starten von PostgreSQL ausgeführt werden
+
+# Standardport von PostgreSQL offen
+EXPOSE 5432
+
+CMD ["postgres"]
